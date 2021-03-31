@@ -11,13 +11,13 @@ Environment parameters
 * AS3: 3.26
 * BIG-IP 15.1
 
-# Kubernetes 1.16 Install
+# Kubernetes 1.20 Install
 
 K8S is installed on RHEL 7.5 on ESXi
 
-* ks8-1-16-master  
-* ks8-1-16-node1
-* ks8-1-16-node2
+* ks8-1-20-master  
+* ks8-1-20-node1
+* ks8-1-20-node2
 
 ## Prerequisite
 
