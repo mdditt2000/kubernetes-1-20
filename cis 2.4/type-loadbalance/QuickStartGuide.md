@@ -48,11 +48,8 @@ Configuration options available in the CIS controller
             # Logging level
             "--log-level=DEBUG",
             "--log-as3-response=true",
-            # AS3 override functionality
-            #"--override-as3-declaration=default/f5-as3-declaration",
             # Self-signed cert
             "--insecure=true",
-            "--agent=as3",
           ]
 ```
 **Note:** As per code it will process as nodeport but the service is configured as type-loadbalance 
