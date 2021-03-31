@@ -1,4 +1,4 @@
-# Kubernetes 1.16 and Container Ingress Controller Quick Start Guide for using type-loadbalance
+# Kubernetes 1.20 and Container Ingress Controller Quick Start Guide for using type-loadbalance
 
 This page is created to document K8S 1.16 with integration of CIS and BIGIP using kubernetes type-loadbalance 
 
@@ -6,10 +6,10 @@ This page is created to document K8S 1.16 with integration of CIS and BIGIP usin
 
 Environment parameters
 
-* K8S 1.12 - one master and two worker nodes
-* CIS 1.12
-* AS3: 3.16.5
-* BIG-IP 14.1
+* K8S 1.20 - one master and two worker nodes
+* CIS 2.4.0
+* AS3: 3.26
+* BIG-IP 15.1
 
 # Kubernetes 1.16 Install
 
