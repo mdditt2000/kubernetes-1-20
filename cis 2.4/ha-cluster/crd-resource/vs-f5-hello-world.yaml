@@ -10,6 +10,7 @@ spec:
   # check out tls examples to understand more.
   virtualServerAddress: "10.192.75.112"
   virtualServerHTTPPort: 80
+  snat: "/Common/vxlan"
   pools:
   - path: /
     service: f5-hello-world
