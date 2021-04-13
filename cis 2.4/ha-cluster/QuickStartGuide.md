@@ -117,14 +117,12 @@ bigip2
 * tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.92
 * tmsh create net self **10.244.21.92** address **10.244.21.92/255.255.0.0** allow-service none vlan fl-vxlan
 
-Example self-ip configuration
+## Example self-ip configuration
 
 bigip1
-
 ![bigip1](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_10-08-15.png)
 
 bigip2
-
 ![bigip2](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_10-10-04.png)
 
 ## Deploy CIS for each BIG-IP
@@ -149,5 +147,8 @@ Configuration options available in the CIS controller
           command: 
 ```
 
-f5-bigip-ctlr-deployment-91.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-91/f5-bigip-ctlr-deployment-91.yaml)
-f5-bigip-ctlr-deployment-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-ctlr-deployment-92.yaml)
+bigip1
+* f5-bigip-ctlr-deployment-91.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-91/f5-bigip-ctlr-deployment-91.yaml)
+
+bigip2
+* f5-bigip-ctlr-deployment-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-ctlr-deployment-92.yaml)
