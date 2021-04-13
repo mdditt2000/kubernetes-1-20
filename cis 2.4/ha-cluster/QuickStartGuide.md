@@ -49,7 +49,7 @@ sys db iptunnel.configsync {
 
 **Now you can create tunnels with non-floating local IP addresses on both the active and standby devices** More information on Configuring Network Virtualization Tunnels [techdocs](https://techdocs.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-tmos-tunnels-ipsec-12-1-0/2.html)
 
-## Create BIG-IP Node (vxlan)
+## Create BIG-IP Nodes (vxlan)
 
 Find the VTEP MAC address
 
@@ -59,7 +59,7 @@ Find the VTEP MAC address
 -------------------------------------------------
 Net::Tunnel: fl-vxlan
 -------------------------------------------------
-MAC Address                     **00:50:56:bb:70:8b**
+MAC Address                     00:50:56:bb:70:8b
 Interface Name                           fl-vxlan
 
 Incoming Discard Packets                        0
