@@ -162,4 +162,4 @@ bigip2
 
 This solution works but you cannot have ANY floating IP addresses. If the K8S nodes are pointing to the BIG-IP internal floating self-ip you would need to remove the self-ip and configure a default gateway forwarding VIP as shown in the diagram below. This is created in Common
  
- 
+ ![defaultgatewa](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_13-17-33.png)
