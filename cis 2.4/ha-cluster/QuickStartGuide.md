@@ -20,13 +20,12 @@ K8S is installed on RHEL 7.5 on ESXi
 * ks8-1-20-node2
 
 ## Prerequisite
-About configuring VXLAN tunnels on high availability BIG-IP device pairs
+**About configuring VXLAN tunnels on high availability BIG-IP device pairs**
 
 By default, the BIG-IP® system synchronizes all existing tunnel objects in its config sync operation. This operation requires that the local IP address of a tunnel be set to a floating self IP address. In a high availability (HA) configuration, any tunnel with a floating local IP address would be available only on the active device, which would prevent some features, such as health monitors, from using the tunnel on the standby device. To make a tunnel available on both the active and standby devices, you need to set the local IP address to a non-floating self IP address, which then requires that you exclude tunnels from the config sync operation. To disable the synchronization of tunnel objects, you can set a bigdb variable on both devices.
 
 ### Disabling config sync for tunnels
-In certain cases, you might want to disable config sync behavior for tunnels, such as when you need to make VXLAN tunnels functional on all devices in a BIG-IP® device group configured for high availability. The tunnel config sync setting applies to all tunnels created on the BIG-IP device.
-Important: Disable config sync on both the active and standby devices before you create any tunnels.
+In a OVN Kubernetes environment, you might want to disable config sync behavior for tunnels, such as when you need to make VXLAN tunnels functional on all devices in a BIG-IP® device group configured for high availability. The tunnel config sync setting applies to all tunnels created on the BIG-IP device. Important: Disable config sync on both the active and standby devices before you create any tunnels.
 
 Log in to the tmsh command-line utility for the BIG-IP system. Determine whether the variable is already disabled, by typing this command.
 
@@ -118,6 +117,8 @@ tmsh create net self 10.244.20.91 address 10.244.20.91/255.255.0.0 allow-service
 tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
 tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.92
 tmsh create net self 10.244.21.92 address 10.244.21.92/255.255.0.0 allow-service none vlan fl-vxlan
+
+
 
 ## Deploy CIS for each BIG-IP
 
