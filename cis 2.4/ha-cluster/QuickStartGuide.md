@@ -120,9 +120,11 @@ bigip2
 ## Example self-ip configuration
 
 bigip1
+
 ![bigip1](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_10-08-15.png)
 
 bigip2
+
 ![bigip2](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_10-10-04.png)
 
 ## Deploy CIS for each BIG-IP
