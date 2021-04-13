@@ -1,6 +1,6 @@
-# Kubernetes 1.20 and Container Ingress Controller Quick Start Guide for using type-loadbalance
+# Kubernetes 1.20 and Container Ingress Controller Quick Start Guide with BIG-IP High Availability (HA) Configuration
 
-This page is created to document K8S 1.16 with integration of CIS and BIGIP using kubernetes type-loadbalance 
+This page is created to document K8S 1.20 with integration of CIS and BIGIP in a HA cluster 
 
 # Note
 
@@ -20,17 +20,31 @@ K8S is installed on RHEL 7.5 on ESXi
 * ks8-1-20-node2
 
 ## Prerequisite
+About configuring VXLAN tunnels on high availability BIG-IP device pairs
 
-Since CIS is using the AS3 declarative API we need the AS3 extension installed on BIGIP. Follow the link to install AS3
- 
-* Install AS3 on BIGIP
-https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/userguide/installation.html
+By default, the BIG-IP® system synchronizes all existing tunnel objects in its config sync operation. This operation requires that the local IP address of a tunnel be set to a floating self IP address. In a high availability (HA) configuration, any tunnel with a floating local IP address would be available only on the active device, which would prevent some features, such as health monitors, from using the tunnel on the standby device. To make a tunnel available on both the active and standby devices, you need to set the local IP address to a non-floating self IP address, which then requires that you exclude tunnels from the config sync operation. To disable the synchronization of tunnel objects, you can set a bigdb variable on both devices.
 
-## Deploy nodeport code base
+### Disabling config sync for tunnels
+In certain cases, you might want to disable config sync behavior for tunnels, such as when you need to make VXLAN tunnels functional on all devices in a BIG-IP® device group configured for high availability. The tunnel config sync setting applies to all tunnels created on the BIG-IP device.
+Important: Disable config sync on both the active and standby devices before you create any tunnels.
 
-No vxlan tunnels are needed for nodeport
+Log in to the tmsh command-line utility for the BIG-IP system. Determine whether the variable is already disabled, by typing this command.
 
-## Create CIS Controller, BIGIP credentials and RBAC Authentication
+    tmsh list sys db iptunnel.configsync value
+
+Disable the variable.
+
+    tmsh modify sys db iptunnel.configsync value disable
+
+Save the configuration.
+
+    tmsh save sys config
+
+**Now you can create tunnels with non-floating local IP addresses on both the active and standby devices**
+
+
+
+## Create CIS Controller, BIG-IP credentials and RBAC Authentication
 
 Configuration options available in the CIS controller
 ```
