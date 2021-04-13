@@ -1,4 +1,4 @@
-# Kubernetes 1.20 and Container Ingress Controller Quick Start Guide with BIG-IP High Availability (HA) Configuration
+# Kubernetes 1.20 and Container Ingress Services Quick Start Guide with BIG-IP High Availability (HA) Configuration
 
 This page is created to document K8S 1.20 with integration of CIS and BIGIP in a HA cluster 
 
