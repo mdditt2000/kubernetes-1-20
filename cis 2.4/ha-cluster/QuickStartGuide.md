@@ -77,7 +77,7 @@ HC Outgoing Multicast Packets                   0
 HC Outgoing Broadcast Packets                   0
 ```
 
-## Create a “dummy” Kubernetes Node for the BIGIP device
+## Create two “dummy” Kubernetes Node for each BIGIP device
 
 Include all of the flannel Annotations. Define the backend-data and public-ip Annotations with data from the BIG-IP VXLAN:
 
@@ -100,8 +100,8 @@ spec:
 
 **Note: Second node create a unique podCIDR**
 
-f5-bigip-node-91.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-91/f5-bigip-node-91.yaml)
-f5-bigip-node-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-node-92.yaml)
+* f5-bigip-node-91.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-91/f5-bigip-node-91.yaml)
+* f5-bigip-node-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-node-92.yaml)
 
 ## Create self-ip
 
