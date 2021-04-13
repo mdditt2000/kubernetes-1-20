@@ -108,17 +108,20 @@ f5-bigip-node-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/
 
 ## Create self-ip
 
-tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
-tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.91
-tmsh create net self 10.244.20.91 address 10.244.20.91/255.255.0.0 allow-service none vlan fl-vxlan
+* tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
+* tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.91
+* tmsh create net self 10.244.20.91 address 10.244.20.91/255.255.0.0 allow-service none vlan fl-vxlan
 
-**Note: Sec
+**Note: Second podCIDR needs to be unique
 
-tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
-tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.92
-tmsh create net self 10.244.21.92 address 10.244.21.92/255.255.0.0 allow-service none vlan fl-vxlan
+* tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
+* tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.92
+* tmsh create net self 10.244.21.92 address 10.244.21.92/255.255.0.0 allow-service none vlan fl-vxlan
 
+Example self-ip configuration
 
+![bigip1](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_10-08-15.png)
+![bigip2](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/diagrams/2021-04-13_10-10-04.png)
 
 ## Deploy CIS for each BIG-IP
 
