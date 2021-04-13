@@ -45,12 +45,9 @@ Validate the db value
 tmsh list sys db iptunnel.configsync value
 sys db iptunnel.configsync {
     value "disable"
-
 ```
 
-**Now you can create tunnels with non-floating local IP addresses on both the active and standby devices**
-
-More information on Configuring Network Virtualization Tunnels [techdocs](https://techdocs.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-tmos-tunnels-ipsec-12-1-0/2.html)
+**Now you can create tunnels with non-floating local IP addresses on both the active and standby devices** More information on Configuring Network Virtualization Tunnels [techdocs](https://techdocs.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-tmos-tunnels-ipsec-12-1-0/2.html)
 
 ## Create BIG-IP Node (vxlan)
 
