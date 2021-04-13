@@ -40,50 +40,106 @@ Save the configuration.
 
     tmsh save sys config
 
+Validate the db value
+
+```
+tmsh list sys db iptunnel.configsync value
+sys db iptunnel.configsync {
+    value "disable"
+
+```
+
 **Now you can create tunnels with non-floating local IP addresses on both the active and standby devices**
 
+More information on Configuring Network Virtualization Tunnels [techdocs](https://techdocs.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-tmos-tunnels-ipsec-12-1-0/2.html)
 
+## Create BIG-IP Node (vxlan)
 
-## Create CIS Controller, BIG-IP credentials and RBAC Authentication
+Find the VTEP MAC address
 
-Configuration options available in the CIS controller
 ```
-          args: [
-            # See the k8s-bigip-ctlr documentation for information about
-            # all config options
-            # https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest
-            "--bigip-username=$(BIGIP_USERNAME)",
-            "--bigip-password=$(BIGIP_PASSWORD)",
-            # Replace with the IP address or hostname of your BIG-IP device
-            "--bigip-url=192.168.200.92",
-            "--bigip-partition=k8s",
-            "--namespace=default",
-            "--pool-member-type=nodeport", ----- As per code it will process as nodeport
-            # Logging level
-            "--log-level=DEBUG",
-            "--log-as3-response=true",
-            # Self-signed cert
-            "--insecure=true",
-          ]
+(tmos)# show net tunnels tunnel fl-vxlan all-properties
+
+-------------------------------------------------
+Net::Tunnel: fl-vxlan
+-------------------------------------------------
+MAC Address                     **00:50:56:bb:70:8b**
+Interface Name                           fl-vxlan
+
+Incoming Discard Packets                        0
+Incoming Error Packets                          0
+Incoming Unknown Proto Packets                  0
+Outgoing Discard Packets                        0
+Outgoing Error Packets                         95
+HC Incoming Octets                         109.9K
+HC Incoming Unicast Packets                  1.0K
+HC Incoming Multicast Packets                   0
+HC Incoming Broadcast Packets                   0
+HC Outgoing Octets                          97.9K
+HC Outgoing Unicast Packets                  1.0K
+HC Outgoing Multicast Packets                   0
+HC Outgoing Broadcast Packets                   0
 ```
-**Note:** As per code it will process as nodeport but the service is configured as type-loadbalance 
+
+## Create a “dummy” Kubernetes Node for the BIGIP device
+
+Include all of the flannel Annotations. Define the backend-data and public-ip Annotations with data from the BIG-IP VXLAN:
 
 ```
 apiVersion: v1
-kind: Service
+kind: Node
 metadata:
-  labels:
-    app: f5-hello-world
-  name: f5-hello-world
+  name: bigip1
+  annotations:
+    #Replace MAC with your BIGIP Flannel VXLAN Tunnel MAC
+    flannel.alpha.coreos.com/backend-data: '{"VtepMAC":"00:50:56:bb:70:8b"}'
+    flannel.alpha.coreos.com/backend-type: "vxlan"
+    flannel.alpha.coreos.com/kube-subnet-manager: "true"
+    #Replace IP with Self-IP for your deployment
+    flannel.alpha.coreos.com/public-ip: "192.168.200.91"
 spec:
-  ports:
-  - name: f5-hello-world
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-  selector:
-    app: f5-hello-world
-  type: LoadBalancer
-  ```
+  #Replace Subnet with your BIGIP Flannel Subnet
+  podCIDR: "10.244.20.0/24
+```
 
-Please let me know if you require additional information
+**Note: Second node create a unique podCIDR**
+
+f5-bigip-node-91.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-91/f5-bigip-node-91.yaml)
+f5-bigip-node-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-node-92.yaml)
+
+## Create self-ip
+
+tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
+tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.91
+tmsh create net self 10.244.20.91 address 10.244.20.91/255.255.0.0 allow-service none vlan fl-vxlan
+
+**Note: Sec
+
+tmsh create net tunnels vxlan fl-vxlan port 8472 flooding-type none
+tmsh create net tunnels tunnel fl-vxlan key 1 profile fl-vxlan local-address 192.168.200.92
+tmsh create net self 10.244.21.92 address 10.244.21.92/255.255.0.0 allow-service none vlan fl-vxlan
+
+## Deploy CIS for each BIG-IP
+
+Configuration options available in the CIS controller
+```
+    spec: 
+      containers: 
+        - 
+          args: 
+            - "--bigip-username=$(BIGIP_USERNAME)"
+            - "--bigip-password=$(BIGIP_PASSWORD)"
+            - "--bigip-url=192.168.200.91"
+            - "--bigip-partition=k8s"
+            - "--namespace=default"
+            - "--pool-member-type=cluster"
+            - "--flannel-name=fl-vxlan"
+            - "--log-level=DEBUG"
+            - "--insecure=true"
+            - "--log-as3-response=true"
+            - "--custom-resource-mode=true"
+          command: 
+```
+
+f5-bigip-ctlr-deployment-91.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-91/f5-bigip-ctlr-deployment-91.yaml)
+f5-bigip-ctlr-deployment-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-ctlr-deployment-92.yaml)
