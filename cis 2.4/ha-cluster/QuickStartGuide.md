@@ -20,6 +20,9 @@ K8S is installed on RHEL 7.5 on ESXi
 * ks8-1-20-node2
 
 ## Prerequisite
+
+**Note** This solution works but you cannot have ANY floating IP addresses
+
 **About configuring VXLAN tunnels on high availability BIG-IP device pairs**
 
 By default, the BIG-IP® system synchronizes all existing tunnel objects in its config sync operation. This operation requires that the local IP address of a tunnel be set to a floating self IP address. In a high availability (HA) configuration, any tunnel with a floating local IP address would be available only on the active device, which would prevent some features, such as health monitors, from using the tunnel on the standby device. To make a tunnel available on both the active and standby devices, you need to set the local IP address to a non-floating self IP address, which then requires that you exclude tunnels from the config sync operation. To disable the synchronization of tunnel objects, you can set a bigdb variable on both devices.
@@ -154,3 +157,9 @@ bigip1
 
 bigip2
 * f5-bigip-ctlr-deployment-92.yaml [repo](https://github.com/mdditt2000/kubernetes-1-20/blob/main/cis%202.4/ha-cluster/big-ip-92/f5-bigip-ctlr-deployment-92.yaml)
+
+## Disclosures
+
+This solution works but you cannot have ANY floating IP addresses. If the K8S nodes are pointing to the BIG-IP internal floating self-ip you would need to remove the self-ip and configure a default gateway forwarding VIP as shown in the diagram below. This is created in Common
+ 
+ 
